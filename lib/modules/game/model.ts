@@ -1,4 +1,4 @@
-export interface IGameMode {
+export interface IGame {
     _id?: number;
     name: String;
 }

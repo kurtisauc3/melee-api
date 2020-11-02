@@ -7,8 +7,12 @@ export class GameRoutes {
 
     public route(app: Application) {
 
-        app.get('/api/game/getGameModes', (req: Request, res: Response) => {
-            this.game_controller.get_game_modes(req, res);
+        app.get('/api/game', (req: Request, res: Response) => {
+            this.game_controller.get_games(req, res);
+        });
+
+        app.get('/api/game/:id', (req: Request, res: Response) => {
+            this.game_controller.get_game(req, res);
         });
 
     }

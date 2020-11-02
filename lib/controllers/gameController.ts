@@ -1,28 +1,48 @@
 import { Request, Response } from 'express';
 import { insufficientParameters, mongoError, successResponse, failureResponse } from '../modules/common/service';
-import { IGameMode } from '../modules/game/model';
+import { IGame } from '../modules/game/model';
+import GameService from '../modules/game/service';
 
-export class GameController {
+export class GameController
+{
+    private game_service: GameService = new GameService();
 
-    public get_game_modes(req: Request, res: Response) {
-        const data: IGameMode[] = [
+    public get_game(req: Request, res: Response)
+    {
+        if (req.params.id)
+        {
+            const game_filter = { _id: req.params.id };
+            this.game_service.getGameMode(game_filter, (err: any, game_data: IGame) =>
             {
-                name: "1v1 Unranked",
-                _id: 1
-            },
+                if (err)
+                {
+                    mongoError(err, res);
+                }
+                else
+                {
+                    successResponse('get game successfull', game_data, res);
+                }
+            });
+        }
+        else
+        {
+            insufficientParameters(res);
+        }
+    }
+
+    public get_games(req: Request, res: Response)
+    {
+        const game_filter = {};
+        this.game_service.getGameModes(game_filter, (err: any, game_data: IGame[]) =>
+        {
+            if (err)
             {
-                name: "1v1 Ranked",
-                _id: 2
-            },
-            {
-                name: "2v2 Unranked",
-                _id: 3
-            },
-            {
-                name: "2v2 Ranked",
-                _id: 4
+                mongoError(err, res);
             }
-        ]
-        successResponse('Success', data, res);
+            else
+            {
+                successResponse('get games successfull', game_data, res);
+            }
+        });
     }
 }

@@ -1,7 +1,6 @@
 import app from "./config/app";
-import env from './environment';
 
-const PORT = env.getPort();
+const PORT = 3000;
 
 app.listen(PORT, () =>
 {
