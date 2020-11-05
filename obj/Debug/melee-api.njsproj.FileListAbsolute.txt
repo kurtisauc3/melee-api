@@ -1,2 +1,0 @@
-C:\Users\sauc3\source\repos\melee-api\obj\Debug\melee-api.njsprojAssemblyReference.cache
-C:\Users\sauc3\source\repos\melee-api\obj\Debug\melee-api.njsproj.CoreCompileInputs.cache

@@ -1,4 +1,4 @@
 export interface IGame {
-    _id?: number;
+    _id?: String;
     name: String;
 }

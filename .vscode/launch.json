@@ -5,9 +5,9 @@
             "name": "Melee API",
             "type": "node",
             "request": "launch",
-            "protocol": "inspector",
-            "preLaunchTask": "Build.All",
-            "cwd": "${workspaceFolder}"
+            "program": "${workspaceFolder}/lib/server.ts",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": ["${workspaceFolder}/dist/**/*.js"]
         }
 
     ]

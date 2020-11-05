@@ -7,42 +7,29 @@ export class GameController
 {
     private game_service: GameService = new GameService();
 
-    public get_game(req: Request, res: Response)
+    public async get_game(req: Request, res: Response)
     {
-        if (req.params.id)
+        try
         {
-            const game_filter = { _id: req.params.id };
-            this.game_service.getGameMode(game_filter, (err: any, game_data: IGame) =>
-            {
-                if (err)
-                {
-                    mongoError(err, res);
-                }
-                else
-                {
-                    successResponse('get game successfull', game_data, res);
-                }
-            });
+            const data = await this.game_service.filterGame({ _id: req.params.id });
+            successResponse('get_game_success', data, res);
         }
-        else
+        catch (error)
         {
-            insufficientParameters(res);
+            failureResponse(error.toString(), null, res);
         }
     }
 
-    public get_games(req: Request, res: Response)
+    public async get_games(req: Request, res: Response)
     {
-        const game_filter = {};
-        this.game_service.getGameModes(game_filter, (err: any, game_data: IGame[]) =>
+        try
         {
-            if (err)
-            {
-                mongoError(err, res);
-            }
-            else
-            {
-                successResponse('get games successfull', game_data, res);
-            }
-        });
+            const data = await this.game_service.allGames();
+            successResponse('get_games_success', data, res);
+        }
+        catch (error)
+        {
+            failureResponse(error.toString(), null, res);
+        }
     }
 }

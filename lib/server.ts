@@ -1,9 +1,9 @@
-import app from "./config/app";
+import { App } from './config/app';
 
-// needs to match melee-client/src/app/_services/API_ENDPOINT
-const PORT = 3000;
+let application = new App();
+let app = application.getApp();
+let io = application.getIo();
+let server = application.getServer();
 
-app.listen(PORT, () =>
-{
-    console.log('Express server listening on port ' + PORT);
-});
+export { app, io, server };
+
