@@ -11,6 +11,7 @@ import { CommonRoutes } from "../routes/common_routes";
 import * as env from '../../env-variables.json';
 import { createServer, Server } from 'http';
 import * as socketIo from 'socket.io';
+import * as url from 'url';
 
 export class App
 {
@@ -64,6 +65,7 @@ export class App
     {
         this.server = createServer(this.app);
         this.io = socketIo(this.server);
+        this.io.engine.generateId = (req) => url.parse(req.url,true).query?.user_id?.toString();
     }
 
     private mongoSetup()

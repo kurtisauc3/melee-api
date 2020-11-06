@@ -42,7 +42,7 @@ export function notImplementedError(res: Response) {
     });
 }
 
-export function getUserIdFromReq(req: Request): String
+export function getUserIdFromReq(req: Request): string
 {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer')
     {

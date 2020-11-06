@@ -12,4 +12,9 @@ export default class UserService
     {
         return users.findOne(query);
     }
+
+    public filterUsers(query): Promise<IUser[]>
+    {
+        return users.find(query);
+    }
 }

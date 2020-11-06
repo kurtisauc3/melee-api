@@ -14,8 +14,8 @@ export class LobbyController
     {
         try
         {
-            const data = await this.lobby_service.filterLobby({ _id: req.params.id });
-            successResponse('get_game_success', data, res);
+            const lobby_data = await this.lobby_service.filterLobby({ _id: req.params.id });
+            successResponse('get_game_success', lobby_data, res);
         }
         catch (error)
         {
@@ -29,18 +29,18 @@ export class LobbyController
         {
             const user_id = getUserIdFromReq(req);
             const user_data = await this.user_service.filterUser({ _id: user_id });
-            let data: ILobby = null;
+            let lobby_data: ILobby = null;
             if (user_data.lobby_id)
             {
-                data = await this.lobby_service.updateLobby({ _id: user_data.lobby_id }, { $set: { game_id: req.body.game_id } });
+                lobby_data = await this.lobby_service.updateLobby({ _id: user_data.lobby_id }, { $set: { game_id: req.body.game_id } });
             }
             else
             {
-                data = await this.lobby_service.createLobby({ game_id: req.body.game_id, owner_id: user_id });
+                lobby_data = await this.lobby_service.createLobby({ game_id: req.body.game_id, owner_id: user_id });
             }
-            await this.user_service.updateUser({ _id: user_id }, { $set: { lobby_id: data._id } });
-            io.emit('user_updated', user_id);
-            successResponse('create_and_join_lobby_success', data, res);
+            await this.user_service.updateUser({ _id: user_id }, { $set: { lobby_id: lobby_data._id } });
+            await this.message_lobby(lobby_data._id, 'lobby_id_updated');
+            successResponse('create_and_join_lobby_success', lobby_data, res);
         }
         catch (error)
         {
@@ -55,7 +55,7 @@ export class LobbyController
             const user_id = getUserIdFromReq(req);
             const lobby_data = await this.lobby_service.filterLobby({ _id: req.params.id });
             const user_data = await this.user_service.updateUser({ _id: user_id }, { $set: { lobby_id: lobby_data._id } });
-            io.emit('user_updated', user_id);
+            await this.message_lobby(lobby_data._id, 'lobby_id_updated');
             successResponse('join_lobby_success', user_data, res);
         }
         catch (error)
@@ -77,7 +77,8 @@ export class LobbyController
             const user_data = await this.user_service.filterUser({ _id: user_id });
             const lobby_data = await this.lobby_service.filterLobby({ _id: user_data.lobby_id });
             const updated_user_data = await this.user_service.updateUser({ _id: user_id }, { $set: { lobby_id: null } });
-            io.emit('user_updated', user_id);
+            await this.message_lobby(lobby_data._id, 'lobby_id_updated');
+            this.message_user(user_id, 'lobby_id_updated');
             if (lobby_data.owner_id === user_id)
             {
                 const next_user_data = await this.user_service.filterUser({ lobby_id: lobby_data._id });
@@ -95,6 +96,20 @@ export class LobbyController
         catch (error)
         {
             failureResponse(error.toString(), null, res);
+        }
+    }
+
+    private message_user(user_id: string, message: string)
+    {
+        io.to(user_id).emit(message);
+    }
+
+    private async message_lobby(lobby_id: String, message: string)
+    {
+        const users_data = await this.user_service.filterUsers({ lobby_id: lobby_id });
+        for(let user of users_data)
+        {
+            io.to(user._id.toString()).emit(message);
         }
     }
 }

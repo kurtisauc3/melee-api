@@ -24,4 +24,5 @@ export default class LobbyService
     {
         return lobby.deleteOne(query);
     }
+
 }
