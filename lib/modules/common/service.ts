@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 import { response_status_codes } from './model';
 import * as decode from 'jwt-decode';
 
-export function successResponse(message: string, DATA: any, res: Response) {
+export function success_response(message: string, DATA: any, res: Response) {
     res.status(response_status_codes.success).json({
         SUCCESS: true,
         MESSAGE: message,
@@ -10,7 +10,7 @@ export function successResponse(message: string, DATA: any, res: Response) {
     });
 }
 
-export function failureResponse(message: string, DATA: any, res: Response) {
+export function failure_response(message: string, DATA: any, res: Response) {
     res.status(response_status_codes.success).json({
         SUCCESS: false,
         MESSAGE: message,
@@ -18,31 +18,31 @@ export function failureResponse(message: string, DATA: any, res: Response) {
     });
 }
 
-export function insufficientParameters(res: Response) {
+export function insufficient_parameters(res: Response) {
     res.status(response_status_codes.bad_request).json({
         SUCCESS: false,
-        MESSAGE: 'Insufficient parameters',
+        MESSAGE: 'insufficient_parameters',
         DATA: {}
     });
 }
 
-export function mongoError(err: any, res: Response) {
+export function mongo_error(err: any, res: Response) {
     res.status(response_status_codes.internal_server_error).json({
         SUCCESS: false,
-        MESSAGE: 'MongoDB error',
+        MESSAGE: 'mongo_error',
         DATA: err
     });
 }
 
-export function notImplementedError(res: Response) {
+export function not_implemented_error(res: Response) {
     res.status(response_status_codes.not_implemented).json({
         SUCCESS: false,
-        MESSAGE: 'Not Implimented error',
+        MESSAGE: 'not_implemented_error',
         DATA: null
     });
 }
 
-export function getUserIdFromReq(req: Request): string
+export function getUserIdFromReq(req: Request): String
 {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer')
     {

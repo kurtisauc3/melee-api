@@ -4,23 +4,23 @@ import lobby from './schema';
 
 export default class LobbyService
 {
-    public createLobby(lobby_params: ILobby): Promise<ILobby>
+    public create_lobby(lobby_params: ILobby): Promise<ILobby>
     {
         const _session = new lobby(lobby_params);
         return _session.save();
     }
 
-    public filterLobby(query): Promise<ILobby>
+    public filter_lobby(query): Promise<ILobby>
     {
         return lobby.findOne(query);
     }
 
-    public updateLobby(query, value): Promise<ILobby>
+    public update_lobby(query, value): Promise<ILobby>
     {
-        return lobby.findOneAndUpdate(query, value);
+        return lobby.findOneAndUpdate(query, value, {new: true});
     }
 
-    public deleteLobby(query): Promise<DeleteResult>
+    public delete_lobby(query): Promise<DeleteResult>
     {
         return lobby.deleteOne(query);
     }

@@ -3,17 +3,17 @@ import users from './schema';
 
 export default class UserService
 {
-    public updateUser(query, value): Promise<IUser>
+    public update_user(query, value): Promise<IUser>
     {
-        return users.updateOne(query, value);
+        return users.findOneAndUpdate(query, value, {new: true});
     }
 
-    public filterUser(query): Promise<IUser>
+    public filter_user(query): Promise<IUser>
     {
         return users.findOne(query);
     }
 
-    public filterUsers(query): Promise<IUser[]>
+    public filter_users(query): Promise<IUser[]>
     {
         return users.find(query);
     }

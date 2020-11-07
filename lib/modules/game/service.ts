@@ -3,12 +3,12 @@ import game from './schema';
 
 export default class GameService
 {
-    public filterGame(query: any): Promise<IGame>
+    public filter_game(query: any): Promise<IGame>
     {
         return game.findOne(query);
     }
 
-    public allGames(): Promise<IGame[]>
+    public all_games(): Promise<IGame[]>
     {
         return game.find();
     }

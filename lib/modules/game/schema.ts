@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema(
     {
-        name: String
+        format: Number,
+        type: Number
     },
     {
         collection: 'games'

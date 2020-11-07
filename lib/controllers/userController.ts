@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { insufficientParameters, mongoError, successResponse, failureResponse, notImplementedError } from '../modules/common/service';
+import { insufficient_parameters, mongo_error, success_response, failure_response } from '../modules/common/service';
 import { IUser } from '../modules/users/model';
 import UserService from '../modules/users/service';
 
@@ -11,12 +11,12 @@ export class UserController
     {
         try
         {
-            const data = await this.user_service.filterUser({ _id: req.params.id });
-            successResponse('get_user_success', data, res);
+            const data = await this.user_service.filter_user({ _id: req.params.id });
+            success_response('get_user_success', data, res);
         }
         catch (error)
         {
-            failureResponse(error.toString(), null, res);
+            failure_response(error.toString(), null, res);
         }
     }
 

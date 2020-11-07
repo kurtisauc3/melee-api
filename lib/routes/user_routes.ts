@@ -11,6 +11,5 @@ export class UserRoutes {
         {
             this.user_controller.get_user(req, res);
         });
-
     }
 }

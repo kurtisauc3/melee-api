@@ -1,4 +1,7 @@
+import { GameFormat, GameType } from "../common/model";
+
 export interface IGame {
     _id?: String;
-    name: String;
+    format: GameFormat;
+    type: GameType;
 }

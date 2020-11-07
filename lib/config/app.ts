@@ -19,7 +19,7 @@ export class App
     public app: express.Application;
     public io: SocketIO.Server;
     public server: Server;
-    public mongoUrl: String = env.mongoUrl;
+    public mongo_url: String = env.mongoUrl;
     private user_routes: UserRoutes = new UserRoutes();
     private lobby_routes: LobbyRoutes = new LobbyRoutes();
     private game_routes: GameRoutes = new GameRoutes();
@@ -29,12 +29,12 @@ export class App
     {
         this.app = express();
         this.config();
-        this.mongoSetup();
+        this.mongo_setup();
         this.user_routes.route(this.app);
         this.game_routes.route(this.app);
         this.lobby_routes.route(this.app);
         this.common_routes.route(this.app);
-        this.createServer();
+        this.create_server();
         this.listen();
     }
 
@@ -61,16 +61,16 @@ export class App
         }));
     }
 
-    private createServer()
+    private create_server()
     {
         this.server = createServer(this.app);
         this.io = socketIo(this.server);
         this.io.engine.generateId = (req) => url.parse(req.url,true).query?.user_id?.toString();
     }
 
-    private mongoSetup()
+    private mongo_setup()
     {
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
+        mongoose.connect(this.mongo_url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
     }
 
     private listen()
@@ -93,17 +93,17 @@ export class App
         });
     }
 
-    public getApp(): express.Application
+    public get_app(): express.Application
     {
         return this.app;
     }
 
-    public getIo(): SocketIO.Server
+    public get_io(): SocketIO.Server
     {
         return this.io;
     }
 
-    public getServer(): Server
+    public get_server(): Server
     {
         return this.server;
     }

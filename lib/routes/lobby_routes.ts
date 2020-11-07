@@ -7,12 +7,16 @@ export class LobbyRoutes {
 
     public route(app: Application)
     {
-        app.post('/api/lobby', (req: Request, res: Response) => {
-            this.lobby_controller.create_and_join_lobby(req, res);
-        });
-
         app.get('/api/lobby/:id', (req: Request, res: Response) => {
             this.lobby_controller.get_lobby(req, res);
+        });
+
+        app.get('/api/lobby/users/:id', (req: Request, res: Response) => {
+            this.lobby_controller.get_lobby_users(req, res);
+        });
+
+        app.post('/api/lobby', (req: Request, res: Response) => {
+            this.lobby_controller.create_and_join_lobby(req, res);
         });
 
         app.post('/api/lobby/join', (req: Request, res: Response) => {
