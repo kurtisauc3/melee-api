@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { insufficient_parameters, mongo_error, success_response, failure_response } from '../modules/common/service';
-import { IGame } from '../modules/game/model';
+import { success_response, failure_response } from '../modules/common/service';
 import GameService from '../modules/game/service';
 
 export class GameController

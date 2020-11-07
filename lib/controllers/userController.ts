@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { insufficient_parameters, mongo_error, success_response, failure_response } from '../modules/common/service';
-import { IUser } from '../modules/users/model';
+import { success_response, failure_response } from '../modules/common/service';
 import UserService from '../modules/users/service';
 
 export class UserController
