@@ -20,6 +20,12 @@ export enum GameType
     CUSTOM = 2,
     RANKED = 3
 }
+export class Game
+{
+    _id: String;
+    format: GameFormat;
+    type: GameType;
+}
 export enum SocketEvent
 {
     connect = 'connect',

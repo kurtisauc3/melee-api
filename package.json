@@ -6,6 +6,10 @@
   "scripts": {
     "start": "concurrently \"tsc -w\" \"nodemon ./dist/lib/server.js\""
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kurtisauc3/melee-api"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
