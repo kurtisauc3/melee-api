@@ -46,6 +46,7 @@ export class LobbyController
             let lobby_data: ILobby = null;
             if (user_data.lobby_id)
             {
+                // check to make sure they are party leader
                 lobby_data = await this.lobby_service.update_lobby({ _id: user_data.lobby_id }, { $set: { game_id: req.body.game_id } });
             }
             else

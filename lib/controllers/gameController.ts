@@ -4,7 +4,7 @@ import { success_response, failure_response } from '../modules/common/service';
 
 export class GameController
 {
-    public async get_game(req: Request, res: Response)
+    public get_game(req: Request, res: Response)
     {
         try
         {
@@ -17,7 +17,7 @@ export class GameController
         }
     }
 
-    public async get_games(req: Request, res: Response)
+    public get_games(req: Request, res: Response)
     {
         try
         {
@@ -35,32 +35,38 @@ export class GameController
             {
                 _id: "quickplay_singles",
                 format: GameFormat.SINGLES,
-                type: GameType.QUICKPLAY
-            },
-            {
-                _id: "quickplay_doubles",
-                format: GameFormat.DOUBLES,
-                type: GameType.QUICKPLAY
+                type: GameType.QUICKPLAY,
+                disabled: false
             },
             {
                 _id: "custom_singles",
                 format: GameFormat.SINGLES,
-                type: GameType.CUSTOM
-            },
-            {
-                _id: "custom_doubles",
-                format: GameFormat.DOUBLES,
-                type: GameType.CUSTOM
+                type: GameType.CUSTOM,
+                disabled: false
             },
             {
                 _id: "ranked_singles",
                 format: GameFormat.SINGLES,
-                type: GameType.RANKED
+                type: GameType.RANKED,
+                disabled: false
+            },
+            {
+                _id: "quickplay_doubles",
+                format: GameFormat.DOUBLES,
+                type: GameType.QUICKPLAY,
+                disabled: true
+            },
+            {
+                _id: "custom_doubles",
+                format: GameFormat.DOUBLES,
+                type: GameType.CUSTOM,
+                disabled: true
             },
             {
                 _id: "ranked_doubles",
                 format: GameFormat.DOUBLES,
-                type: GameType.RANKED
+                type: GameType.RANKED,
+                disabled: true
             },
         ];
     }

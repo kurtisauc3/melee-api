@@ -19,7 +19,6 @@ export class App
     public app: express.Application;
     public io: SocketIO.Server;
     public server: Server;
-    public mongo_url: String = env.mongoUrl;
     private user_routes: UserRoutes = new UserRoutes();
     private lobby_routes: LobbyRoutes = new LobbyRoutes();
     private game_routes: GameRoutes = new GameRoutes();
@@ -70,7 +69,7 @@ export class App
 
     private mongo_setup()
     {
-        mongoose.connect(this.mongo_url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
+        mongoose.connect(env.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
     }
 
     private listen()

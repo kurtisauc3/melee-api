@@ -1,37 +1,40 @@
-function create(user, callback) {
+function create(user, callback)
+{
     const bcrypt = require('bcrypt');
     const MongoClient = require('mongodb@3.1.4').MongoClient;
-    const dbUrl = `<YOUR_MONGO_URL>`;
-    const client = new MongoClient(dbUrl);
+    const client = new MongoClient(`${configuration.mongoUrl}`);
 
-    client.connect(function (err) {
-      if (err) return callback(err);
+    client.connect(function (err)
+    {
+        if (err) return callback(err);
 
-      const db = client.db(`<YOUR_DATABASE_NAME>`);
-      const users = db.collection(`users`);
+        const db = client.db(`${configuration.dbname}`);
+        const users = db.collection(`${configuration.colname}`);
 
-      users.findOne({ email: user.email }, function (err, withSameMail) {
-        if (err || withSameMail) {
-          client.close();
-          return callback(err || new Error('the user already exists'));
-        }
+        users.findOne({ email: user.email }, function (err, withSameEmail)
+        {
+            if (err || withSameEmail)
+            {
+                client.close();
+                return callback(err || new Error('the email already exists'));
+            }
+            bcrypt.hash(user.password, 10, function (err, hash)
+            {
+                if (err)
+                {
+                    client.close();
+                    return callback(err);
+                }
+                user.password = hash;
+                user.lobby_id = null;
 
-        bcrypt.hash(user.password, 10, function (err, hash) {
-          if (err) {
-            client.close();
-            return callback(err);
-          }
-
-          user.password = hash;
-          user.lobby_id = null;
-
-          users.insert(user, function (err, inserted) {
-            client.close();
-
-            if (err) return callback(err);
-            callback(null);
-          });
+                users.insert(user, function (err, inserted)
+                {
+                    client.close();
+                    if (err) return callback(err);
+                    callback(null);
+                });
+            });
         });
-      });
     });
-  }
+}
