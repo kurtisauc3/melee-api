@@ -47,9 +47,9 @@ export function not_implemented_error(res: Response) {
 export function getUserIdFromReq(req: Request): String
 {
     if (env.bypassAuthentication) {
-        let bypassId: string = env.bypassAccountId;
-        if (bypassId == undefined) { throw exceptions.AUTH_BYPASS_ERROR; }
-        return bypassId;
+        let bypass_id: string = env.bypassAccountId;
+        if (bypass_id == undefined) { throw exceptions.AUTH_BYPASS_ERROR; }
+        return bypass_id;
     } else {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             const token = req.headers.authorization.split(' ')[1];
