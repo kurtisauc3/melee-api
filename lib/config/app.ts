@@ -47,17 +47,19 @@ export class App
         // support application/x-www-form-urlencoded post data
         this.app.use(bodyParser.urlencoded({ extended: false }));
         // protect all routes
-        this.app.use(jwt({
-            secret: jwksRsa.expressJwtSecret({
-                cache: true,
-                rateLimit: true,
-                jwksRequestsPerMinute: 5,
-                jwksUri: `https://${env.auth0Domain}/.well-known/jwks.json`
-            }),
-            audience: env.apiIdentifier,
-            issuer: `https://${env.auth0Domain}/`,
-            algorithms: ['RS256']
-        }));
+        if (!env.bypassAuthentication) {
+            this.app.use(jwt({
+                secret: jwksRsa.expressJwtSecret({
+                    cache: true,
+                    rateLimit: true,
+                    jwksRequestsPerMinute: 5,
+                    jwksUri: `https://${env.auth0Domain}/.well-known/jwks.json`
+                }),
+                audience: env.apiIdentifier,
+                issuer: `https://${env.auth0Domain}/`,
+                algorithms: ['RS256']
+            }));
+        }
     }
 
     private create_server()
