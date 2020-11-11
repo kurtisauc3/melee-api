@@ -2,6 +2,7 @@ import { Response, Request } from 'express';
 import { response_status_codes } from './model';
 import { exceptions } from './exceptions';
 import * as decode from 'jwt-decode';
+import * as env from '../../../env-variables.json';
 
 export function success_response(message: string, DATA: any, res: Response) {
     res.status(response_status_codes.success).json({
@@ -46,7 +47,7 @@ export function not_implemented_error(res: Response) {
 export function getUserIdFromReq(req: Request): String
 {
     if (env.bypassAuthentication) {
-        bypassId = env.bypassAccountId;
+        let bypassId: string = env.bypassAccountId;
         if (bypassId == undefined) { throw exceptions.AUTH_BYPASS_ERROR; }
         return bypassId;
     } else {
