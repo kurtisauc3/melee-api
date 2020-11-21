@@ -6,7 +6,7 @@ import * as jwt from 'express-jwt';
 import * as jwksRsa from 'jwks-rsa';
 import { UserRoutes } from "../routes/user_routes";
 import { LobbyRoutes } from "../routes/lobby_routes";
-import { GameRoutes } from "../routes/game_routes";
+import { DataRoutes } from "../routes/data_routes";
 import { CommonRoutes } from "../routes/common_routes";
 import * as env from '../../env-variables.json';
 import { createServer, Server } from 'http';
@@ -21,7 +21,7 @@ export class App
     public server: Server;
     private user_routes: UserRoutes = new UserRoutes();
     private lobby_routes: LobbyRoutes = new LobbyRoutes();
-    private game_routes: GameRoutes = new GameRoutes();
+    private data_routes: DataRoutes = new DataRoutes();
     private common_routes: CommonRoutes = new CommonRoutes();
 
     constructor()
@@ -29,9 +29,9 @@ export class App
         this.app = express();
         this.config();
         this.mongo_setup();
-        this.user_routes.route(this.app);
-        this.game_routes.route(this.app);
+        this.data_routes.route(this.app);
         this.lobby_routes.route(this.app);
+        this.user_routes.route(this.app);
         this.common_routes.route(this.app);
         this.create_server();
         this.listen();

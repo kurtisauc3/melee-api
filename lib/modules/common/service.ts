@@ -1,11 +1,13 @@
 import { Response, Request } from 'express';
-import { response_status_codes } from './model';
+import { ResponseStatusCodes } from './model';
 import { exceptions } from './exceptions';
 import * as decode from 'jwt-decode';
 import * as env from '../../../env-variables.json';
+import e = require('express');
 
 export function success_response(message: string, DATA: any, res: Response) {
-    res.status(response_status_codes.success).json({
+    clear_password_property(DATA);
+    res.status(ResponseStatusCodes.success).json({
         SUCCESS: true,
         MESSAGE: message,
         DATA
@@ -13,7 +15,7 @@ export function success_response(message: string, DATA: any, res: Response) {
 }
 
 export function failure_response(message: string, DATA: any, res: Response) {
-    res.status(response_status_codes.success).json({
+    res.status(ResponseStatusCodes.success).json({
         SUCCESS: false,
         MESSAGE: message,
         DATA
@@ -21,7 +23,7 @@ export function failure_response(message: string, DATA: any, res: Response) {
 }
 
 export function insufficient_parameters(res: Response) {
-    res.status(response_status_codes.bad_request).json({
+    res.status(ResponseStatusCodes.bad_request).json({
         SUCCESS: false,
         MESSAGE: 'insufficient_parameters',
         DATA: {}
@@ -29,7 +31,7 @@ export function insufficient_parameters(res: Response) {
 }
 
 export function mongo_error(err: any, res: Response) {
-    res.status(response_status_codes.internal_server_error).json({
+    res.status(ResponseStatusCodes.internal_server_error).json({
         SUCCESS: false,
         MESSAGE: 'mongo_error',
         DATA: err
@@ -37,7 +39,7 @@ export function mongo_error(err: any, res: Response) {
 }
 
 export function not_implemented_error(res: Response) {
-    res.status(response_status_codes.not_implemented).json({
+    res.status(ResponseStatusCodes.not_implemented).json({
         SUCCESS: false,
         MESSAGE: 'not_implemented_error',
         DATA: null
@@ -59,5 +61,19 @@ export function getUserIdFromReq(req: Request): String
             }
         }
         return null;
+    }
+}
+
+export function clear_password_property(data)
+{
+    const password_key = 'password';
+    if (Array.isArray(data)) data.forEach(d => clear_password_property(d))
+    else if (typeof data === 'object')
+    {
+        for(let key in data)
+        {
+            if (Array.isArray(data[key])) data[key].forEach(d => clear_password_property(d))
+            else if (key === password_key) data[key] = null;
+        }
     }
 }

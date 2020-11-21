@@ -5,6 +5,7 @@ import UserService from '../modules/users/service';
 import LobbyService from '../modules/lobby/service';
 import { io } from '../server';
 import { SocketEvent } from '../modules/common/model';
+import { IUser } from 'modules/users/model';
 
 export class LobbyController
 {
